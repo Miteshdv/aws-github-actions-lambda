@@ -1,0 +1,19 @@
+# Core dependencies for Lambda function
+boto3==1.28.0
+botocore==1.31.0
+
+# Testing dependencies
+pytest==7.4.0
+pytest-cov==4.1.0
+pytest-mock==3.11.1
+
+# Logging and monitoring
+aws-xray-sdk==2.12.0
+watchtower==3.0.1
+
+# Optional but recommended for better JSON handling
+simplejson==3.19.1
+
+# For local development and testing
+python-dotenv==1.0.0
+moto==4.1.11         # AWS services mocking
