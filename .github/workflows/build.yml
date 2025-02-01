@@ -2,7 +2,7 @@ name: Build and Deploy Lambda
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   release:
     types: [created]
 
@@ -17,7 +17,7 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    environment: dev
     steps:
       - uses: actions/checkout@v2
 
