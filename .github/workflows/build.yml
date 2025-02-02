@@ -49,7 +49,7 @@ jobs:
       - name: Delete all existing Docker images
         run: |
           aws ecr list-images --repository-name $ECR_REPOSITORY --query 'imageIds[*]' --output json | \
-          jq -c '.[]' | \
+          jq -c '.[] | {imageDigest: .imageDigest, imageTag: .imageTag}' | \
           xargs -n 1 -I {} aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids '{}'
 
       - name: Build and push Docker image
