@@ -46,6 +46,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Delete all existing Docker images
+        run: |
+          aws ecr list-images --repository-name $ECR_REPOSITORY --query 'imageIds[*]' --output json | \
+          jq -c '.[]' | \
+          xargs -n 1 -I {} aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids '{}'
+
       - name: Build and push Docker image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
