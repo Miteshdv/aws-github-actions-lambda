@@ -15,7 +15,7 @@ def lambda_handler(event,context):
                 'Access-Control-Allow-Origin': '*'
             },
             'body': json.dumps({
-                'message': 'Success'
+                'message': 'THIS IS FROM LAMBDA'
             })
         }
     except Exception as e:
