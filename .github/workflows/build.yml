@@ -46,14 +46,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Delete ECR Images by Tag
-        run: |
-          # Fetch all image tags from the ECR repository
-          aws ecr list-images --repository-name $ECR_REPOSITORY --query 'imageIds[*].imageTag' --output text | \
-          tr '\t' '\n' | \   
-          xargs -n 1 -I {} aws ecr batch-delete-image \
-            --repository-name $ECR_REPOSITORY \
-            --image-ids "{\"imageTag\":\"{}\"}"
+      - name: Cleanup ECR Images
+        uses: wawandco/actions-ecr-cleanup@v1
+        with:
+          ecr_repository: $ECR_REPOSITORY
+          retention_days: 0 # Adjust as needed
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ env.AWS_REGION }}
 
       - name: Build and push Docker image
         env:
